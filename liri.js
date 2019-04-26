@@ -6,6 +6,8 @@ var keys = require("./keys.js");
 var axios = require("axios");
 // var inquirer = require("inquirer");
 var moment = require("moment");
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
 
 
 
@@ -67,14 +69,16 @@ var userBand = function (artist) {
 }
 
 var userSong = function(song){
-    var spotify = new Spotify(keys.spotify);
+    
     var song = process.argv.slice(3).join(" ");
+
     spotify.search({ type: 'track', query: song }, function(err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
       }
      
-    console.log(response); 
+    //   console.log(data.tracks); 
+      console.log(data.tracks.items); 
     });
 }
 
@@ -92,6 +96,8 @@ var userSong = function(song){
 
 
 
+
+
 var runApp = function () {
     if (process.argv[2] === "movie-this") {
         userMovie();
@@ -99,6 +105,11 @@ var runApp = function () {
         userBand();
     } else if (process.argv[2] === "spotify-this-song") {
         userSong();
+    }else if (process.argv[2] === "do-what-it-says"){
+
+    }else{
+        console.log("liri does not know what to do. Try again");
+        
     }
 }
 runApp();
