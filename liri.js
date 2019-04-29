@@ -142,7 +142,7 @@ var chooseArg = function(arg1, arg2){
         }
       };
 
-var runApp = function (argOne,arg2) {
-    chooseArg(argOne,arg2);
+var runApp = function (arg1,arg2) {
+    chooseArg(arg1,arg2);
 }
 runApp(process.argv[2], process.argv.slice(3).join(" "));
