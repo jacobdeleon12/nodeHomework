@@ -18,7 +18,7 @@ var userMovie = function (movieName) {
     if (movieName === undefined) {
         movieName = "speed";
     }
-    
+
     var url = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
 
     axios.get(url).then(function (response) {
@@ -51,7 +51,7 @@ var userBand = function (artist) {
         artist = "tool";
     }
 
-    var artist = process.argv.slice(3).join(" ");
+
     var url = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
     axios.get(url).then(function (response) {
@@ -69,7 +69,7 @@ var userBand = function (artist) {
             //      * Date of the Event (use moment to format this as "MM/DD/YYYY")
             console.log(moment(data.datetime).format("MM/DD/YYYY"));
             console.log("\n-----------------------------------\n");
-            
+
         }
     });
 }
@@ -92,7 +92,11 @@ var userSong = function (song) {
         for (var i = 0; i < songs.length; i++) {
             console.log(i);
             // * Artist(s)
-            console.log("artist(s): " + songs[i].artists.name)
+            for (let j = 0; j < songs[i].artists.length; j++) {
+
+                console.log("artist(s): " + songs[i].artists[j].name)
+
+            }
             // * The song's name
             console.log("The song's name: " + songs[i].name);
             // * A preview link of the song from Spotify
@@ -115,34 +119,31 @@ var doWhatItSays = function () {
 
         else if (dataArr.length === 2) {
             chooseArg(dataArr[0], dataArr[1]);
-        } 
-        else if(dataArr.length === 1) {
+        }
+        else if (dataArr.length === 1) {
             chooseArg(dataArr[0]);
         }
 
     });
 };
 
-var chooseArg = function(arg1, arg2){
-    switch (arg1) {
-        case "concert-this":
-        userBand(arg2);
-          break;
-        case "spotify-this-song":
-        userSong(arg2);
-          break;
-        case "movie-this":
-        userMovie(arg2);
-          break;
-        case "do-what-it-says":
-        doWhatItSays();
-          break;
-        default:
-        console.log("liri does not know what to do. Try again");
-        }
-      };
+var chooseArg = function (arg1, arg2) {
 
-var runApp = function (arg1,arg2) {
-    chooseArg(arg1,arg2);
+    if (arg1 === "concert-this") {
+        userBand(arg2);
+    } else if (arg1 === "spotify-this-song") {
+        userSong(arg2);
+    } else if (arg1 === "movie-this") {
+        userMovie(arg2);
+    } else if (arg1 === "do-what-it-says") {
+        doWhatItSays();
+    } else {
+        console.log("liri does not know what to do. Try again");
+    }
 }
+
+var runApp = function (arg1, arg2) {
+    chooseArg(arg1, arg2);
+}
+
 runApp(process.argv[2], process.argv.slice(3).join(" "));
